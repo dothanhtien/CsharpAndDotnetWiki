@@ -5,7 +5,8 @@
     "title": "Template - Console App",
     "titleVi": "Bài mẫu - Console App",
     "summary": "Standard lecture folder structure + a sample console app project.",
-    "summaryVi": "Cấu trúc chuẩn của một bài giảng + project console app mẫu."
+    "summaryVi": "Cấu trúc chuẩn của một bài giảng + project console app mẫu.",
+    "hidden": true
   },
   {
     "id": "00-web-api-template",
@@ -13,6 +14,31 @@
     "title": "Template - Web API",
     "titleVi": "Bài mẫu - Web API",
     "summary": "Lecture paired with a sample ASP.NET Core Web API project.",
-    "summaryVi": "Bài giảng đi kèm project ASP.NET Core Web API mẫu."
+    "summaryVi": "Bài giảng đi kèm project ASP.NET Core Web API mẫu.",
+    "hidden": true
+  },
+  {
+    "id": "01-csharp-basics",
+    "dir": "lectures/01-csharp-basics",
+    "title": "C# Basics",
+    "titleVi": "C# cơ bản",
+    "summary": "Variables, constants, value/reference types, type conversion, operators, formatting, conditionals, nullability, loops, collections, and methods.",
+    "summaryVi": "Biến, hằng số, kiểu giá trị/tham chiếu, chuyển đổi kiểu, toán tử, định dạng, điều kiện, nullable, vòng lặp, collection, và method."
+  },
+  {
+    "id": "02-csharp-collections",
+    "dir": "lectures/02-csharp-collections",
+    "title": "C# Collections",
+    "titleVi": "C# Collections",
+    "summary": "Arrays, List<T>, Dictionary<TKey,TValue>, HashSet<T>, Queue<T>, Stack<T>, LinkedList<T>, interfaces, and LINQ basics.",
+    "summaryVi": "Mảng, List<T>, Dictionary<TKey,TValue>, HashSet<T>, Queue<T>, Stack<T>, LinkedList<T>, các interface, và LINQ cơ bản."
+  },
+  {
+    "id": "03-csharp-oop",
+    "dir": "lectures/03-csharp-oop",
+    "title": "C# OOP",
+    "titleVi": "C# hướng đối tượng",
+    "summary": "The four OOP pillars, plus access modifiers, static members, overload/override/hiding, and sealed.",
+    "summaryVi": "Bốn trụ cột OOP, cùng access modifier, static member, overload/override/hiding, và sealed."
   }
 ]

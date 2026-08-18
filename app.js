@@ -155,8 +155,8 @@ function addCopyButtons() {
   });
 }
 
-let LECTURES = [];            // loaded from lectures.json
-let currentLectureId = null;  // id of the lecture currently shown
+let LECTURES = []; // loaded from lectures.json
+let currentLectureId = null; // id of the lecture currently shown
 let currentLang = localStorage.getItem(LANG_STORAGE_KEY) || "en";
 let renderToken = 0;
 
@@ -450,7 +450,10 @@ async function init() {
       cache: "no-store",
     });
     if (!res.ok) throw new Error("status " + res.status);
-    LECTURES = await res.json();
+    const allLectures = await res.json();
+    // Entries flagged "hidden": true stay in lectures.json (e.g. to keep
+    // config without deleting it) but are excluded from the rendered wiki.
+    LECTURES = allLectures.filter((l) => !l.hidden);
   } catch (err) {
     contentEl.innerHTML =
       '<p style="color:red">' +
