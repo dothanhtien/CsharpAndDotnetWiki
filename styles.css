@@ -1,0 +1,498 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --link: #0969da;
+  --sidebar-bg: #f6f8fa;
+  --accent: #6e40c9;
+  --active-bg: #ede7f9;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --link: #4493f8;
+    --sidebar-bg: #161b22;
+    --accent: #a371f7;
+    --active-bg: #2a2140;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --fg: #e6edf3;
+  --muted: #8b949e;
+  --border: #30363d;
+  --code-bg: #161b22;
+  --link: #4493f8;
+  --sidebar-bg: #161b22;
+  --accent: #a371f7;
+  --active-bg: #2a2140;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.65;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+#sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+#sidebar .brand {
+  display: block;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--fg);
+  text-decoration: none;
+  margin: 0 0 1.25rem;
+}
+#sidebar h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+#home-link {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.87rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+}
+#home-link:hover {
+  background: var(--border);
+}
+#home-link.active {
+  background: var(--active-bg);
+  color: var(--accent);
+}
+#lecture-nav {
+  margin-bottom: 1.5rem;
+}
+#lecture-nav a {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.87rem;
+  margin-bottom: 0.15rem;
+}
+#lecture-nav a:hover {
+  background: var(--border);
+}
+#lecture-nav a.active {
+  background: var(--active-bg);
+  color: var(--accent);
+  font-weight: 600;
+}
+#toc a {
+  display: block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#toc a.toc-h1 {
+  font-weight: 700;
+  margin-top: 0.6rem;
+  color: var(--accent);
+}
+#toc a.toc-h2 {
+  padding-left: 0.9rem;
+}
+#toc a.toc-h3 {
+  padding-left: 1.6rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+#toc a:hover {
+  background: var(--border);
+}
+
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 2.5rem 3rem 6rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  scroll-margin-top: 1rem;
+}
+h1 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3rem;
+  margin-top: 2.5rem;
+}
+h3 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+h4 {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+}
+
+a {
+  color: var(--link);
+}
+
+code {
+  background: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  font-size: 0.88em;
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.code-block-wrap {
+  position: relative;
+  margin: 1em 0;
+}
+.code-block-wrap pre {
+  margin: 0;
+}
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
+}
+.code-block-wrap:hover .copy-btn,
+.copy-btn:focus-visible {
+  opacity: 1;
+}
+.copy-btn:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+.copy-btn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.copy-btn.copied {
+  opacity: 1;
+  color: #1a7f37;
+  border-color: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  .copy-btn.copied {
+    color: #3fb950;
+    border-color: #3fb950;
+  }
+}
+@media (max-width: 900px) {
+  .copy-btn {
+    opacity: 1;
+  }
+}
+.mermaid-mount {
+  background: var(--bg);
+  text-align: center;
+  margin: 1rem 0;
+}
+.mermaid-mount svg {
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  margin: 1rem 0;
+  padding: 0.4rem 1rem;
+  border-left: 4px solid var(--accent);
+  background: var(--code-bg);
+  color: var(--muted);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.8rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+th {
+  background: var(--code-bg);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+#content {
+  transition: opacity 0.15s ease;
+}
+#content.content-loading {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+#loading {
+  padding: 3rem;
+  color: var(--muted);
+}
+
+#menu-btn {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Shared fixed container so the two buttons space themselves out based on
+     actual rendered width instead of hard-coded `right` offsets that can
+     overlap once font metrics/letter-spacing push either button wider. */
+#topbar-actions {
+  position: fixed;
+  top: 1rem;
+  right: 1.25rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+#lang-toggle {
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  color: var(--muted);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--muted);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+#theme-toggle:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+#theme-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+#theme-toggle .icon-moon {
+  display: none;
+}
+:root[data-theme="dark"] #theme-toggle .icon-sun {
+  display: none;
+}
+:root[data-theme="dark"] #theme-toggle .icon-moon {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #theme-toggle .icon-sun {
+    display: none;
+  }
+  :root:not([data-theme="light"]) #theme-toggle .icon-moon {
+    display: block;
+  }
+}
+#lang-toggle .lang-opt {
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+}
+#lang-toggle .lang-sep {
+  opacity: 0.4;
+  padding: 0 0.05rem;
+}
+#lang-toggle[data-active="vi"] .lang-opt[data-lang="vi"],
+#lang-toggle[data-active="en"] .lang-opt[data-lang="en"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+  #menu-btn {
+    display: block;
+  }
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    z-index: 15;
+    width: 82vw;
+    max-width: 340px;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+  }
+  #sidebar.open {
+    transform: translateX(0);
+  }
+  main {
+    padding: 4rem 1.2rem 4rem;
+    max-width: 100%;
+  }
+}
+
+footer {
+  max-width: 900px;
+  margin: 3rem auto 0;
+  padding: 1.5rem 3rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Start page (lecture list landing view) */
+#home-view .home-intro {
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.lecture-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-items: stretch;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lecture-cards li {
+  display: flex;
+}
+.lecture-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--fg);
+  background: var(--code-bg);
+  transition:
+    border-color 0.12s ease,
+    transform 0.12s ease;
+}
+.lecture-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.lecture-card .lecture-card-title {
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.lecture-card .lecture-card-summary {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin: 0;
+}

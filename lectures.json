@@ -1,0 +1,18 @@
+[
+  {
+    "id": "00-console-app-template",
+    "dir": "lectures/00-console-app-template",
+    "title": "Template - Console App",
+    "titleVi": "Bài mẫu - Console App",
+    "summary": "Standard lecture folder structure + a sample console app project.",
+    "summaryVi": "Cấu trúc chuẩn của một bài giảng + project console app mẫu."
+  },
+  {
+    "id": "00-web-api-template",
+    "dir": "lectures/00-web-api-template",
+    "title": "Template - Web API",
+    "titleVi": "Bài mẫu - Web API",
+    "summary": "Lecture paired with a sample ASP.NET Core Web API project.",
+    "summaryVi": "Bài giảng đi kèm project ASP.NET Core Web API mẫu."
+  }
+]

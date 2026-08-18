@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C# &amp; .NET Wiki - Lectures</title>
+    <meta
+      name="description"
+      content="A wiki of C# / .NET lectures, each with a runnable sample project (console app or Web API)"
+    />
+
+    <!-- Markdown renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Syntax highlighting -->
+    <link
+      id="hljs-light"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <link
+      id="hljs-dark"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <!-- Mermaid diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <button id="menu-btn" aria-label="Toggle menu">☰</button>
+
+    <div id="topbar-actions">
+      <button
+        id="theme-toggle"
+        aria-label="Toggle dark/light mode"
+        title="Toggle dark/light mode"
+      >
+        <svg
+          class="icon-sun"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+          />
+        </svg>
+        <svg
+          class="icon-moon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+        </svg>
+      </button>
+
+      <button
+        id="lang-toggle"
+        aria-label="Switch language"
+        title="Switch language"
+      >
+        <span class="lang-opt" data-lang="en">EN</span
+        ><span class="lang-sep">/</span
+        ><span class="lang-opt" data-lang="vi">VI</span>
+      </button>
+    </div>
+
+    <nav id="sidebar">
+      <a class="brand" href="#">#️⃣ C# &amp; .NET Wiki</a>
+      <a id="home-link" class="home-link" href="#">🏠 Home</a>
+      <div id="lecture-nav"></div>
+      <h2 id="toc-title">Contents</h2>
+      <div id="toc"></div>
+    </nav>
+
+    <main id="content">
+      <div id="loading">Loading…</div>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
