@@ -48,5 +48,13 @@
     "titleVi": "LINQ",
     "summary": "Query vs. method syntax, filtering, projection, ordering, grouping, joining, set operations, aggregation, element/quantifier operators, partitioning, conversion, and deferred vs. immediate execution.",
     "summaryVi": "Cú pháp query vs. method, lọc, chiếu, sắp xếp, gom nhóm, join, phép toán tập hợp, tổng hợp, toán tử phần tử/định lượng, phân trang, chuyển đổi, và thực thi trì hoãn vs. tức thì."
+  },
+  {
+    "id": "05-docker",
+    "dir": "lectures/05-docker",
+    "title": "Docker",
+    "titleVi": "Docker",
+    "summary": "Containers vs. VMs, images/containers/registries, multi-stage Dockerfiles for ASP.NET Core, port mapping, volumes, health checks, layer caching, and multi-container apps with Docker Compose.",
+    "summaryVi": "Container vs. máy ảo, image/container/registry, Dockerfile multi-stage cho ASP.NET Core, port mapping, volume, health check, layer caching, và ứng dụng nhiều container với Docker Compose."
   }
 ]
