@@ -273,6 +273,96 @@ pre code {
   height: auto;
 }
 
+/* Source-file viewer (opens instead of downloading .cs/.csproj/.json links) */
+body.modal-open {
+  overflow: hidden;
+}
+.source-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  z-index: 100;
+}
+.source-modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 860px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+.source-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.source-modal-title {
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+.source-modal-close {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  width: 1.8rem;
+  height: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.source-modal-close:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+.source-modal-body {
+  padding: 1rem;
+  overflow-y: auto;
+}
+.source-modal-status {
+  color: var(--muted);
+  margin: 0;
+}
+.source-modal-error {
+  color: #cf222e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .source-modal-error {
+    color: #ff7b72;
+  }
+}
+:root[data-theme="dark"] .source-modal-error {
+  color: #ff7b72;
+}
+.source-modal-code {
+  margin: 0;
+}
+.source-modal-code pre {
+  max-height: 60vh;
+}
+.source-modal-raw-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--link);
+}
+
 blockquote {
   margin: 1rem 0;
   padding: 0.4rem 1rem;

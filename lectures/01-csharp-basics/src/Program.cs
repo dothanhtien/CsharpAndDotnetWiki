@@ -1,7 +1,24 @@
 // C# Basics - sample project
 // Run: dotnet run (from this src/ folder)
+// Reads from the console in section 3 - if you pipe/redirect input (or provide none),
+// Console.ReadLine() returns null and the code below falls back to a default value.
 
-// ---- 1. Variables & data types ----
+// ---- 1. Comments ----
+// A single-line comment - everything after // on this line is ignored.
+
+/* A multi-line comment -
+   can span several lines. */
+
+/// <summary>
+/// An XML doc comment - describes a member for IntelliSense/tooling.
+/// </summary>
+static void Greet() => Console.WriteLine("Hi!");
+
+Greet();
+
+Console.WriteLine();
+
+// ---- 2. Variables & data types ----
 string name = "Alice";
 int age = 25;
 double height = 1.68;
@@ -10,20 +27,48 @@ char grade = 'A';
 
 Console.WriteLine($"{name} is {age} years old, {height}m tall, grade {grade}, student: {isStudent}");
 
+// The rest of the numeric family - reach for these only when int/double aren't the right fit.
+byte smallCount = 255;
+short shortNumber = 1000;
+long bigNumber = 42L;
+float lessPreciseHeight = 1.68f;
+object anything = 42; // object can hold a value of any type
+Console.WriteLine($"byte={smallCount}, short={shortNumber}, long={bigNumber}, float={lessPreciseHeight}, object={anything}");
+
 // var lets the compiler infer the type from the right-hand side.
 var favoriteNumber = 7;
 Console.WriteLine($"favoriteNumber is inferred as {favoriteNumber.GetType().Name}");
 
 Console.WriteLine();
 
-// ---- 2. Constants ----
+// ---- 3. Console input ----
+Console.Write("Enter your name (or press Enter to skip): ");
+string? input = Console.ReadLine(); // null when there's no more input (e.g. redirected/empty stdin)
+string userName = string.IsNullOrWhiteSpace(input) ? "Anonymous" : input;
+Console.WriteLine($"Hello, {userName}!");
+
+Console.Write("Enter your age (or press Enter to skip): ");
+string? ageInput = Console.ReadLine();
+int userAge = int.TryParse(ageInput, out var parsedAge) ? parsedAge : 0;
+Console.WriteLine($"Next year you'll be {userAge + 1}.");
+
+Console.WriteLine();
+
+// ---- 4. Constants ----
 const double Pi = 3.14159; // must be assigned here, and can never change again
 double circleArea = Pi * 2 * 2;
 Console.WriteLine($"Area of a circle with radius 2 = {circleArea}");
 
 Console.WriteLine();
 
-// ---- 3. Value types vs. reference types ----
+// ---- 5. Enums ----
+Weekday today = Weekday.Wednesday;
+Console.WriteLine($"today = {today}");      // ToString() prints the member name
+Console.WriteLine($"(int)today = {(int)today}"); // members are backed by int, numbered from 0 by default
+
+Console.WriteLine();
+
+// ---- 6. Value types vs. reference types ----
 int x = 10;
 int y = x; // copies the VALUE - x and y are independent
 y = 99;
@@ -36,7 +81,7 @@ Console.WriteLine($"reference types: box1[0]={box1[0]}, box2[0]={box2[0]}"); // 
 
 Console.WriteLine();
 
-// ---- 4. Type conversion & casting ----
+// ---- 7. Type conversion & casting ----
 int wholeNumber = 42;
 double asDouble = wholeNumber; // implicit: int -> double never loses data
 
@@ -52,7 +97,7 @@ Console.WriteLine($"implicit={asDouble}, explicit cast={truncated}, Parse={parse
 
 Console.WriteLine();
 
-// ---- 5. Operators ----
+// ---- 8. Operators ----
 int a = 10, b = 3;
 Console.WriteLine($"{a} + {b} = {a + b}");
 Console.WriteLine($"{a} - {b} = {a - b}");
@@ -71,7 +116,17 @@ Console.WriteLine($"hasDiscount || isMember = {hasDiscount || isMember}");
 
 Console.WriteLine();
 
-// ---- 6. String interpolation & formatting ----
+// ---- 9. The Math class ----
+Console.WriteLine($"Math.Round(3.14159, 2) = {Math.Round(3.14159, 2)}");
+Console.WriteLine($"Math.Max(4, 9) = {Math.Max(4, 9)}");
+Console.WriteLine($"Math.Min(4, 9) = {Math.Min(4, 9)}");
+Console.WriteLine($"Math.Abs(-7) = {Math.Abs(-7)}");
+Console.WriteLine($"Math.Sqrt(16) = {Math.Sqrt(16)}");
+Console.WriteLine($"Math.Pow(2, 10) = {Math.Pow(2, 10)}");
+
+Console.WriteLine();
+
+// ---- 10. String interpolation & formatting ----
 decimal price = 1234.5m;
 Console.WriteLine($"Plain:      {price}");
 Console.WriteLine($"Currency:   {price:C}");   // culture-dependent currency symbol
@@ -81,7 +136,36 @@ Console.WriteLine(string.Format("Composite: {0} is {1} years old", name, age));
 
 Console.WriteLine();
 
-// ---- 7. Conditionals & switch ----
+// ---- 11. Common string operations ----
+string sentence = "  Hello, C# World!  ";
+Console.WriteLine($"Trim:     '{sentence.Trim()}'");
+Console.WriteLine($"ToUpper:  '{sentence.Trim().ToUpper()}'");
+Console.WriteLine($"Contains: {sentence.Contains("World")}");
+Console.WriteLine($"Replace:  '{sentence.Trim().Replace("C#", "F#")}'");
+Console.WriteLine($"Substring: '{sentence.Trim().Substring(7, 2)}'");
+
+string[] words = sentence.Trim().Split(' ');
+Console.WriteLine($"Split into {words.Length} words: {string.Join(" | ", words)}");
+
+Console.WriteLine();
+
+// ---- 12. Verbatim/raw strings & escape sequences ----
+string withEscapes = "Line1\nLine2\tTabbed\\Backslash";
+Console.WriteLine(withEscapes);
+
+string path = @"C:\Users\Alice\file.txt"; // verbatim string: backslashes are literal, no escaping needed
+Console.WriteLine(path);
+
+string json = """
+{
+  "name": "Alice"
+}
+"""; // raw string literal (C# 11+): no escaping needed even for quotes
+Console.WriteLine(json);
+
+Console.WriteLine();
+
+// ---- 13. Conditionals & switch ----
 int score = 78;
 string rank = score >= 90 ? "Excellent"
     : score >= 70 ? "Good"
@@ -114,7 +198,7 @@ Console.WriteLine($"Grade label: {gradeLabel}");
 
 Console.WriteLine();
 
-// ---- 8. Nullable types & null handling ----
+// ---- 14. Nullable types & null handling ----
 int? maybeAge = null; // int can't normally be null; int? (Nullable<int>) can
 maybeAge ??= 18;      // "if null, assign this" - the null-coalescing assignment operator
 Console.WriteLine($"maybeAge after ??=: {maybeAge}");
@@ -125,7 +209,18 @@ Console.WriteLine($"maybeName ?? \"Unknown\": {maybeName ?? "Unknown"}"); // nul
 
 Console.WriteLine();
 
-// ---- 9. Loops ----
+// ---- 15. Variable scope ----
+int outer = 10;
+{
+    int inner = 20; // inner only exists within this block
+    Console.WriteLine($"inside block: outer + inner = {outer + inner}");
+}
+// Console.WriteLine(inner); // <- would not compile here: inner is out of scope
+Console.WriteLine($"outside block: outer = {outer}");
+
+Console.WriteLine();
+
+// ---- 16. Loops ----
 Console.Write("for loop:      ");
 for (var i = 1; i <= 5; i++)
 {
@@ -159,7 +254,7 @@ Console.WriteLine();
 
 Console.WriteLine();
 
-// ---- 10. Arrays & collections ----
+// ---- 17. Arrays & collections ----
 var numbers = new[] { 1, 2, 3, 4, 5 };
 var sum = numbers.Sum();
 Console.WriteLine($"Sum of {string.Join(" + ", numbers)} = {sum}");
@@ -178,23 +273,66 @@ Console.WriteLine($"jagged row lengths: {string.Join(", ", jagged.Select(row => 
 
 Console.WriteLine();
 
-// ---- 11. Methods ----
+// ---- 18. Tuples ----
+(string name, int age) person = ("Alice", 25);
+Console.WriteLine($"tuple: {person.name} is {person.age}");
+
+var (city, population) = ("Hanoi", 8_000_000); // deconstruction
+Console.WriteLine($"deconstructed: {city}: {population}");
+
+static (int min, int max) MinMax(int[] values) => (values.Min(), values.Max());
+var (min, max) = MinMax(new[] { 4, 1, 9, 2 });
+Console.WriteLine($"MinMax: min={min}, max={max}");
+
+Console.WriteLine();
+
+// ---- 19. Methods ----
 Console.WriteLine($"Square(6) = {Square(6)}");
-Console.WriteLine($"Greet(\"Bob\") = {Greet("Bob")}");
-Console.WriteLine($"Greet(\"Bob\", \"Hi\") = {Greet("Bob", "Hi")}"); // overload with optional parameter
+Console.WriteLine($"Greet(\"Bob\") = {GreetPerson("Bob")}");
+Console.WriteLine($"Greet(\"Bob\", \"Hi\") = {GreetPerson("Bob", "Hi")}"); // overload with optional parameter
 Console.WriteLine($"Add(1, 2, 3, 4) = {Add(1, 2, 3, 4)}"); // params: any number of arguments
 
 static int Square(int n) => n * n;
 
-static string Greet(string person, string greeting = "Hello") => $"{greeting}, {person}!";
+static string GreetPerson(string person, string greeting = "Hello") => $"{greeting}, {person}!";
 
 static int Add(params int[] values) => values.Sum();
 
 Console.WriteLine();
 
-// ---- 12. A simple class ----
+// ---- 20. Exception handling ----
+try
+{
+    int badResult = int.Parse("not a number"); // throws FormatException
+    Console.WriteLine(badResult);              // never reached
+}
+catch (FormatException ex)
+{
+    Console.WriteLine($"Invalid input: {ex.Message}");
+}
+finally
+{
+    Console.WriteLine("This always runs, whether an exception happened or not.");
+}
+
+Console.WriteLine();
+
+// ---- 21. A simple class ----
 var dog = new Animal("Rex", "Dog");
 dog.Describe();
+
+// ---- Type declarations (must come after all top-level statements above) ----
+
+enum Weekday
+{
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
+}
 
 class Animal
 {

@@ -22,8 +22,8 @@
     "dir": "lectures/01-csharp-basics",
     "title": "C# Basics",
     "titleVi": "C# cơ bản",
-    "summary": "Variables, constants, value/reference types, type conversion, operators, formatting, conditionals, nullability, loops, collections, and methods.",
-    "summaryVi": "Biến, hằng số, kiểu giá trị/tham chiếu, chuyển đổi kiểu, toán tử, định dạng, điều kiện, nullable, vòng lặp, collection, và method."
+    "summary": "Comments, variables, console I/O, constants, enums, value/reference types, type conversion, operators, Math, string formatting/manipulation, conditionals, nullability, scope, loops, collections, tuples, methods, and exception handling.",
+    "summaryVi": "Comment, biến, nhập/xuất console, hằng số, enum, kiểu giá trị/tham chiếu, chuyển đổi kiểu, toán tử, Math, định dạng/xử lý chuỗi, điều kiện, nullable, phạm vi biến, vòng lặp, collection, tuple, method, và xử lý ngoại lệ."
   },
   {
     "id": "02-csharp-collections",
@@ -40,5 +40,13 @@
     "titleVi": "C# hướng đối tượng",
     "summary": "The four OOP pillars, plus access modifiers, static members, overload/override/hiding, and sealed.",
     "summaryVi": "Bốn trụ cột OOP, cùng access modifier, static member, overload/override/hiding, và sealed."
+  },
+  {
+    "id": "04-linq",
+    "dir": "lectures/04-linq",
+    "title": "LINQ",
+    "titleVi": "LINQ",
+    "summary": "Query vs. method syntax, filtering, projection, ordering, grouping, joining, set operations, aggregation, element/quantifier operators, partitioning, conversion, and deferred vs. immediate execution.",
+    "summaryVi": "Cú pháp query vs. method, lọc, chiếu, sắp xếp, gom nhóm, join, phép toán tập hợp, tổng hợp, toán tử phần tử/định lượng, phân trang, chuyển đổi, và thực thi trì hoãn vs. tức thì."
   }
 ]

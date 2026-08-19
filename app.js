@@ -85,6 +85,10 @@ const UI_TEXT = {
     home: "Home",
     homeTitle: "Lectures",
     homeIntro: "Pick a lecture below or from the sidebar to get started.",
+    sourceLoading: "Loading source…",
+    sourceError: "Failed to load file: ",
+    sourceClose: "Close",
+    sourceOpenRaw: "Open raw file",
   },
   vi: {
     toc: "Mục lục",
@@ -98,6 +102,10 @@ const UI_TEXT = {
     home: "Trang chủ",
     homeTitle: "Danh sách bài giảng",
     homeIntro: "Chọn một bài giảng bên dưới hoặc từ sidebar để bắt đầu.",
+    sourceLoading: "Đang tải file…",
+    sourceError: "Không tải được file: ",
+    sourceClose: "Đóng",
+    sourceOpenRaw: "Mở file gốc",
   },
 };
 
@@ -106,8 +114,44 @@ const COPY_ICON =
 const CHECK_ICON =
   '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 6.2 12 13 4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-function addCopyButtons() {
+// Shared by the per-code-block copy button and the source-file viewer modal.
+function createCopyButton(getText) {
   const t = UI_TEXT[currentLang];
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "copy-btn";
+  btn.innerHTML =
+    COPY_ICON + '<span class="copy-btn-label">' + t.copy + "</span>";
+  btn.addEventListener("click", async () => {
+    const text = getText();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+      } catch (e2) {}
+      ta.remove();
+    }
+    btn.classList.add("copied");
+    btn.innerHTML =
+      CHECK_ICON + '<span class="copy-btn-label">' + t.copied + "</span>";
+    clearTimeout(btn._resetTimer);
+    btn._resetTimer = setTimeout(() => {
+      btn.classList.remove("copied");
+      btn.innerHTML =
+        COPY_ICON + '<span class="copy-btn-label">' + t.copy + "</span>";
+    }, 1800);
+  });
+  return btn;
+}
+
+function addCopyButtons() {
   document.querySelectorAll("#content pre > code").forEach((code) => {
     const pre = code.parentElement;
     if (
@@ -120,40 +164,149 @@ function addCopyButtons() {
     wrap.className = "code-block-wrap";
     pre.replaceWith(wrap);
     wrap.appendChild(pre);
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "copy-btn";
-    btn.innerHTML =
-      COPY_ICON + '<span class="copy-btn-label">' + t.copy + "</span>";
-    btn.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(code.innerText);
-      } catch (err) {
-        const ta = document.createElement("textarea");
-        ta.value = code.innerText;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-          document.execCommand("copy");
-        } catch (e2) {}
-        ta.remove();
-      }
-      btn.classList.add("copied");
-      btn.innerHTML =
-        CHECK_ICON + '<span class="copy-btn-label">' + t.copied + "</span>";
-      clearTimeout(btn._resetTimer);
-      btn._resetTimer = setTimeout(() => {
-        btn.classList.remove("copied");
-        btn.innerHTML =
-          COPY_ICON + '<span class="copy-btn-label">' + t.copy + "</span>";
-      }, 1800);
-    });
-    wrap.appendChild(btn);
+    wrap.appendChild(createCopyButton(() => code.innerText));
   });
 }
+
+// Extensions that GitHub Pages serves without a browser-renderable MIME type
+// (so a plain <a href> to them triggers a forced download). Clicking a link
+// to one of these inside lecture content opens an in-page viewer instead.
+const SOURCE_LANG_BY_EXT = {
+  cs: "csharp",
+  csproj: "xml",
+  json: "json",
+  xml: "xml",
+  config: "xml",
+  yml: "yaml",
+  yaml: "yaml",
+  txt: "plaintext",
+};
+
+function sourceViewerInfo(anchor) {
+  let url;
+  try {
+    url = new URL(anchor.href, location.href);
+  } catch {
+    return null;
+  }
+  if (url.origin !== location.origin) return null;
+  const ext = url.pathname.split(".").pop().toLowerCase();
+  if (!(ext in SOURCE_LANG_BY_EXT)) return null;
+  return { url, lang: SOURCE_LANG_BY_EXT[ext] };
+}
+
+let sourceModalEl = null;
+
+function closeSourceModal() {
+  if (!sourceModalEl) return;
+  sourceModalEl.remove();
+  sourceModalEl = null;
+  document.body.classList.remove("modal-open");
+  document.removeEventListener("keydown", onSourceModalKeydown);
+}
+
+function onSourceModalKeydown(e) {
+  if (e.key === "Escape") closeSourceModal();
+}
+
+async function openSourceModal(url, lang) {
+  const t = UI_TEXT[currentLang];
+  closeSourceModal();
+
+  const path = url.pathname.replace(/^\/+/, "");
+  const filename = path.split("/").pop();
+
+  const overlay = document.createElement("div");
+  overlay.className = "source-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeSourceModal();
+  });
+
+  const modal = document.createElement("div");
+  modal.className = "source-modal";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+
+  const header = document.createElement("div");
+  header.className = "source-modal-header";
+  const title = document.createElement("span");
+  title.className = "source-modal-title";
+  title.textContent = filename;
+  const closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "source-modal-close";
+  closeBtn.setAttribute("aria-label", t.sourceClose);
+  closeBtn.textContent = "✕";
+  closeBtn.addEventListener("click", closeSourceModal);
+  header.appendChild(title);
+  header.appendChild(closeBtn);
+
+  const body = document.createElement("div");
+  body.className = "source-modal-body";
+  body.innerHTML = '<p class="source-modal-status">' + t.sourceLoading + "</p>";
+
+  modal.appendChild(header);
+  modal.appendChild(body);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.classList.add("modal-open");
+  document.addEventListener("keydown", onSourceModalKeydown);
+  sourceModalEl = overlay;
+
+  let text;
+  try {
+    const res = await fetch(url.href + "?v=" + Date.now(), {
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error("status " + res.status);
+    text = await res.text();
+  } catch (err) {
+    if (sourceModalEl !== overlay) return; // closed/replaced while fetching
+    body.innerHTML =
+      '<p class="source-modal-status source-modal-error">' +
+      t.sourceError +
+      err.message +
+      "</p>";
+    return;
+  }
+  if (sourceModalEl !== overlay) return; // closed/replaced while fetching
+
+  const wrap = document.createElement("div");
+  wrap.className = "code-block-wrap source-modal-code";
+  const pre = document.createElement("pre");
+  const code = document.createElement("code");
+  code.className = "language-" + lang;
+  code.textContent = text;
+  pre.appendChild(code);
+  wrap.appendChild(pre);
+  wrap.appendChild(createCopyButton(() => code.textContent));
+
+  const rawLink = document.createElement("a");
+  rawLink.className = "source-modal-raw-link";
+  rawLink.href = url.href;
+  rawLink.target = "_blank";
+  rawLink.rel = "noopener";
+  rawLink.textContent = t.sourceOpenRaw;
+
+  body.innerHTML = "";
+  body.appendChild(wrap);
+  body.appendChild(rawLink);
+  try {
+    hljs.highlightElement(code);
+  } catch (e) {}
+}
+
+// Intercept clicks on links (rendered from README markdown) that point to
+// source/config files GitHub Pages would otherwise force-download, and show
+// them in an in-page viewer instead.
+document.getElementById("content").addEventListener("click", (e) => {
+  const anchor = e.target.closest("a");
+  if (!anchor) return;
+  const info = sourceViewerInfo(anchor);
+  if (!info) return;
+  e.preventDefault();
+  openSourceModal(info.url, info.lang);
+});
 
 let LECTURES = []; // loaded from lectures.json
 let currentLectureId = null; // id of the lecture currently shown
